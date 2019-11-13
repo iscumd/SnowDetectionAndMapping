@@ -26,10 +26,8 @@ public:
     void publish_image(const std::string &imgFrameId, const ros::Time &t)
     {
         sensor_msgs::ImagePtr msg;
-        cv::Mat img;
-        // Convert image to grayscale
-        cv::cvtColor(cv::imread("/home/ethan/test.jpg"), img, cv::COLOR_BGR2GRAY);
-        // Create a ROS message from the CV image
+				// load image as gray scale
+        cv::Mat img = cv::imread("/home/justin/test.jpg", CV_LOAD_IMAGE_GRAYSCALE);
         msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", img).toImageMsg();
         msg->header.stamp = t;
         msg->header.frame_id = imgFrameId;
@@ -44,10 +42,12 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "snow_detector_test_publisher");
     TestImgPublisher testPub;
+		ros::Rate loop_rate(20);
     int i = 0;
-    while(true) {
+    while(ros::ok()) {
         testPub.publish_image(std::to_string(i), ros::Time::now());
         std::cout << "Publishing image " << i << "\n";
         ++i;
+				loop_rate.sleep();
     }
 }
