@@ -28,7 +28,7 @@ public:
         sensor_msgs::ImagePtr msg;
         cv::Mat img;
         // Convert image to grayscale
-        cv::cvtColor(cv::imread("~/test.jpg"), img, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(cv::imread("/home/ethan/test.jpg"), img, cv::COLOR_BGR2GRAY);
         // Create a ROS message from the CV image
         msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", img).toImageMsg();
         msg->header.stamp = t;
@@ -42,7 +42,7 @@ public:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "snow_detector");
+    ros::init(argc, argv, "snow_detector_test_publisher");
     TestImgPublisher testPub;
     int i = 0;
     while(true) {
