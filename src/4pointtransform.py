@@ -118,7 +118,8 @@ class image_transform:
             print("Found aruco tag with these corners: " + str(corners[0][0]))
             self.pts = corners[0][0]
             self.calibrated = True
-        except:
+        except Exception as e:
+            print(e)
             self.calibrated = False
 
     def callback(self, data):
