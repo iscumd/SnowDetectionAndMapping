@@ -10,6 +10,7 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include <iostream>
+#include <string>
 
 class TestImgPublisher
 {
@@ -22,8 +23,7 @@ public:
         image_pub = it.advertise("/left/transformed_image", 1);
     }
 
-private:
-    void publish_image(image_transport::Publisher &pubImg, const std::string &imgFrameId, const ros::Time &t)
+    void publish_image(const std::string &imgFrameId, const ros::Time &t)
     {
         sensor_msgs::ImagePtr msg;
         cv::Mat img;
@@ -33,14 +33,21 @@ private:
         msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", img).toImageMsg();
         msg->header.stamp = t;
         msg->header.frame_id = imgFrameId;
-        pubImg.publish(msg);
+        image_pub.publish(msg);
     }
+
+    private:
     ros::NodeHandle n;
 };
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "snow_detector");
-    TestImgPublisher sd;
-    ros::spin();
+    TestImgPublisher testPub;
+    int i = 0;
+    while(true) {
+        testPub.publish_image(std::to_string(i), ros::Time::now());
+        std::cout << "Publishing image " << i << "\n";
+        ++i;
+    }
 }

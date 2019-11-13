@@ -142,6 +142,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(snow_detector_node src/snow_detector.cpp)
+add_executable(snow_detector_test_pub_node src/test_img_publisher.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -155,6 +156,10 @@ add_executable(snow_detector_node src/snow_detector.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(snow_detector_node
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBS}
+        )
+target_link_libraries(snow_detector_test_pub_node
         ${catkin_LIBRARIES}
         ${OpenCV_LIBS}
         )
