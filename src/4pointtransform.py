@@ -8,6 +8,9 @@ import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
+import sys
+import os
+
 
 def order_points(pts):
     x_sorted = pts[np.argsort(pts[:, 0]), :]
@@ -107,7 +110,7 @@ class image_transform:
         # self.pts = np.array([[414, 450], [878, 450], [1194, 625], [182, 625]])  # tl, tr, br, bl
         self.pts = np.array([[217, 135], [436, 135], [552, 301], [69, 301]])  # tl, tr, br, bl
         self.calibrated = False
-        self.autoCalibrate = True
+        self.autoCalibrate = False
 
     def calibrate(self, image):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -119,7 +122,9 @@ class image_transform:
             self.pts = corners[0][0]
             self.calibrated = True
         except Exception as e:
-            print(e)
+            #exc_type, exc_obj, exc_tb = sys.exc_info()
+            #fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            #print(exc_type, fname, exc_tb.tb_lineno)
             self.calibrated = False
 
     def callback(self, data):

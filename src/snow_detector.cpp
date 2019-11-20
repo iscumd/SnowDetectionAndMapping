@@ -51,14 +51,14 @@ private:
         screenshot = cv_ptr->image; // Copy of the original image for debugging
 
         cv::namedWindow("Raw", cv::WINDOW_NORMAL);
-        cv::resizeWindow("Raw", 1280, 720);
+        cv::resizeWindow("Raw", 500, 300);
         cv::imshow("Raw", screenshot);
         // Blur the image and store the result in snow
         cv::GaussianBlur(origimage, snow, cv::Size(5, 5), 0, 0);
         // Create a copy of the blurred image for debugging
         blurimage = snow;
         cv::namedWindow("Blur", cv::WINDOW_NORMAL);
-        cv::resizeWindow("Blur", 1280, 720);
+        cv::resizeWindow("Blur", 500, 300);
         cv::imshow("Blur", blurimage);
         // Filter for all pixels between the colors grayscale 150 and grayscale 255.
         // This creates a binary image where all pixels that pass the filter are white (255)
@@ -85,7 +85,7 @@ private:
         cv::erode(snow, snow, kernel_erode);
         cv::dilate(snow, snow, kernel_dialate);
         cv::namedWindow("Erode", cv::WINDOW_NORMAL);
-        cv::resizeWindow("Erode", 1280, 720);
+        cv::resizeWindow("Erode", 500, 300);
         cv::imshow("Erode", snow);
 
         cv::Mat threshold_output;
@@ -95,7 +95,7 @@ private:
         // Convert the erode/dialate output to a binary image
         cv::threshold(snow, threshold_output, thresh, 255, cv::THRESH_BINARY);
         cv::namedWindow("Thresh", cv::WINDOW_NORMAL);
-        cv::resizeWindow("Thresh", 1280, 720);
+        cv::resizeWindow("Thresh", 500, 300);
         cv::imshow("Thresh", threshold_output);
         // Find contours. Results are stored as a (vector) list of (mathematical) vectors
         cv::findContours(threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
@@ -122,7 +122,7 @@ private:
         }
 
         cv::namedWindow("Snow", cv::WINDOW_NORMAL);
-        cv::resizeWindow("Snow", 1280, 720);
+        cv::resizeWindow("Snow", 500, 300);
         double alpha = 0.5;
         double beta = 1 - alpha;
         cv::Mat overlayed;
